@@ -1,6 +1,6 @@
 import React from "react";
 
-function Item({ item }) {
+function Item({ item,onDeleteItem, onUpdateItem }) {
  
   const handleAddToCart=()=>{
     console.log(item.isInCart);
@@ -15,18 +15,15 @@ function Item({ item }) {
     body: JSON.stringify(itemData),
   })
   .then((r) => r.json())
-  .then((updatedItem) => console.log(updatedItem));
+  .then((updatedItem) =>  onUpdateItem(updatedItem));
 
   } 
   const handleDelete=()=>{
     fetch(`http://localhost:4000/items/${item.id}`,{
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
     })
-    .then((r) => r.json())
-    .then((updatedItem) => console.log(updatedItem));
+    .then((res) => res.json())
+    .then((item) => onDeleteItem(item));
      
   }
 
